@@ -8,6 +8,12 @@ git clone https://github.com/engaged-edu/open-edx-engaged-theme.git "$(tutor con
 tutor images build openedx
 ```
 
+## Updating the theme
+
+```bash
+git stash; git pull; git stash pop
+```
+
 ## TODO
 
 [ ] - Script to replace CMS static logo image.

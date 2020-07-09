@@ -53,12 +53,6 @@ from openedx.core.djangolib.markup import HTML
                         <span class="copy">${_("An error occurred. Try loading the page again.")}</span>
                     </div>
                 </div>
-                <div class="wrapper-profile-section-container-two is-hidden">
-                    <div class="wrapper-profile-bio"></div>
-                    % if achievements_fragment:
-                        ${HTML(achievements_fragment.body_html())}
-                    % endif
-                </div>
             </div>
         </div>
     </div>
