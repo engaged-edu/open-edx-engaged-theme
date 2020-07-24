@@ -16,7 +16,9 @@
       <div class="row">
         <div class="col-md-9">
           ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-          <p class="copyright" style="margin-top:0px">${footer['copyright']} ${u" | {icp}".format(icp=getattr(settings,'ICP_LICENSE')) if getattr(settings,'ICP_LICENSE',False) else ""}</p>
+          <p class="copyright" style="margin-top:0px">
+            ${footer['copyright'] | n} ${u" | {icp}".format(icp=getattr(settings,'ICP_LICENSE')) if getattr(settings,'ICP_LICENSE',False) else ""}
+          </p>
         </div>
         <div class="col-md-3">
           ## Please leave this link and use one of the logos provided
@@ -52,7 +54,7 @@
         % endif
 
         ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-        <p class="copyright">${footer['copyright']}
+        <p class="copyright">${footer['copyright'] | n}
                % if icp_license_info.get('icp_license'):
                 ${u" | {text}".format(text=icp_license_info.get('text'))}
                 <a href="${icp_license_info.get('icp_license_link', '#')}">
