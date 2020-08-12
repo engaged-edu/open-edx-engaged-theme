@@ -6,6 +6,8 @@
   from django.utils.translation import ugettext as _
   from edx_django_utils.monitoring import set_custom_metric
   from student.roles import GlobalStaff
+
+  site_protocol = 'https' if settings.HTTPS == 'on' else 'http'
 %>
 
 % if uses_pattern_library:
@@ -32,7 +34,7 @@
               </li>
           </%block>
           <li class="dropdown-item item has-block-link">
-            <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=http://${settings.CMS_BASE}">${_("Sign Out")}</a>
+            <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=${site_protocol}%3A%2F%2F${settings.CMS_BASE}">${_("Sign Out")}</a>
           </li>
       </ul>
   </div>
@@ -60,7 +62,7 @@
         </li>
         % endif
         <li class="nav-item nav-account-signout">
-          <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=http://${settings.CMS_BASE}">${_("Sign Out")}</a>
+          <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=${site_protocol}%3A%2F%2F${settings.CMS_BASE}">${_("Sign Out")}</a>
         </li>
       </ul>
     </div>
