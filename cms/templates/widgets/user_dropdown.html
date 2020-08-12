@@ -32,7 +32,7 @@
               </li>
           </%block>
           <li class="dropdown-item item has-block-link">
-            <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=http%3A%2F%2Fstudio.local.overhang.io%2Fhome">${_("Sign Out")}</a>
+            <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=${settings.CMS_BASE}">${_("Sign Out")}</a>
           </li>
       </ul>
   </div>
@@ -60,7 +60,7 @@
         </li>
         % endif
         <li class="nav-item nav-account-signout">
-          <a class="action action-signout" href="${settings.FRONTEND_LOGOUT_URL}?next=http%3A%2F%2Fstudio.local.overhang.io%2Fhome">${_("Sign Out")}</a>
+          <a class="action action-signout" href="${settings.CMS_BASE}?next=${settings.CMS_BASE}">${_("Sign Out")}</a>
         </li>
       </ul>
     </div>
