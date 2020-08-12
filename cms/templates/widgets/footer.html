@@ -50,7 +50,7 @@ from openedx.core.djangolib.markup import HTML, Text
           ${Text(_("edX, Open edX, and the edX and Open edX logos are registered trademarks of {link_start}edX Inc.{link_end}")).format(
             link_start=HTML(u"<a data-rel='edx.org' href='https://www.edx.org/'>"),
             link_end=HTML(u"</a>")
-          )}
+          ) | n}
         </p>
       </div>
 
