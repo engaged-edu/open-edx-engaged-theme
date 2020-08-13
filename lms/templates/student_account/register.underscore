@@ -77,11 +77,17 @@
             const [key, value] = curr.split('=');
             return {...acc, [key]: value}
         }, {})
-        const { user_email, account_logo_url } = keyValue;
+        const { user_email, user_name, account_logo_url } = keyValue;
         if(user_email) {
             const element = document.getElementById('register-email')
             if(element) {
                 element.value = user_email;
+            }
+        }
+        if(user_name) {
+            const element = document.getElementById('register-name')
+            if(element) {
+                element.value = user_name;
             }
         }
         if(account_logo_url) {
