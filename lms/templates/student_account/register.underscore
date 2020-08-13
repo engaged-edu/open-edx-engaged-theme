@@ -71,7 +71,7 @@
 <script type="text/javascript">
     if(window.location.search) {
         // Necessario fazer esse substr para que tire o '?' do inicio da queryString
-        const qs = window.location.search.substr(1);
+        const qs = decodeURIComponent(window.location.search).substr(1);
         // Monta objeto chave:valor com os parametros.
         const keyValue = qs.split("&").reduce((acc, curr) => {
             const [key, value] = curr.split('=');
@@ -87,7 +87,7 @@
         if(user_name) {
             const element = document.getElementById('register-name')
             if(element) {
-                element.value = user_name;
+                element.value = user_name.replace(/\+/g, " ");
             }
         }
         if(account_logo_url) {
