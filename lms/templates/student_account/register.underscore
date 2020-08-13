@@ -81,13 +81,17 @@
         if(user_email) {
             const element = document.getElementById('register-email')
             if(element) {
+                element.focus();
                 element.value = user_email;
+                element.blur();
             }
         }
         if(user_name) {
             const element = document.getElementById('register-name')
             if(element) {
+                element.focus();
                 element.value = user_name.replace(/\+/g, " ");
+                element.blur();
             }
         }
         if(account_logo_url) {

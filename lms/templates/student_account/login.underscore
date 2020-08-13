@@ -85,13 +85,17 @@
         if(user_email) {
             const element = document.getElementById('login-email')
             if(element) {
+                element.focus();
                 element.value = user_email;
+                element.blur();
             }
         }
         if(account_logo_url) {
             const element = document.getElementsByClassName("logo")[0]
             if(element) {
+                element.focus();
                 element.src = account_logo_url
+                element.blur();
             }
         }
     }
