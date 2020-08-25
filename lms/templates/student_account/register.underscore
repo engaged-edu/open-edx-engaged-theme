@@ -77,13 +77,14 @@
             const [key, value] = curr.split('=');
             return {...acc, [key]: value}
         }, {})
-        const { user_email, user_name, account_logo_url, frozen_property } = keyValue;
+        const { user_email, user_name, account_logo_url } = keyValue;
         if(user_email) {
             const element = document.getElementById('register-email')
             if(element) {
                 element.focus();
                 element.value = user_email;
                 element.blur();
+                element.disabled = true;
             }
         }
         if(user_name) {
@@ -99,13 +100,6 @@
             if(element) {
                 element.src = account_logo_url
             }
-        }
-
-        if(frozen_property) {
-            const ids = frozen_property.split(',');
-            ids.forEach(id => {
-                document.getElementById(`${id}`).disabled = true;
-            });
         }
     }
 </script>
