@@ -84,6 +84,7 @@
                 element.focus();
                 element.value = user_email;
                 element.blur();
+                element.disabled = true;
             }
         }
         if(user_name) {
