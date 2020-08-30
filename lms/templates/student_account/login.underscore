@@ -81,7 +81,7 @@
         fillLoginFields({ urlParameters: urlParametersGlobal });
     }
 
-    function fillLoginFields({ urlParameters } = {urlParameters: {}}) {
+    function fillLoginFields({ urlParameters = {} } = {}) {
         const { user_email, account_logo_url } = urlParameters;
         if(user_email) {
             const element = document.getElementById('login-email')
@@ -99,7 +99,7 @@
         }
     }
 
-    function authenticateViaUrlParameter({access_token, urlParameters} = {urlParameters: {}}) {
+    function authenticateViaUrlParameter({access_token, urlParameters = {}} = {}) {
         if(access_token) {
             const savedLoginComponents = document.getElementById('content-container').innerHTML;
             document.getElementById('content-container').innerHTML = "<span>Realizando autenticação</span>"
