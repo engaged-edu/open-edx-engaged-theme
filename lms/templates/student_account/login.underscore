@@ -73,15 +73,16 @@
 </form>
 
 <script type="text/javascript">
-    if(window.location.search) {
-        // Necessario fazer esse substr para que tire o '?' do inicio da queryString
-        const qs = decodeURIComponent(window.location.search).substr(1);
-        // Monta objeto chave:valor com os parametros.
-        const keyValue = qs.split("&").reduce((acc, curr) => {
-            const [key, value] = curr.split('=');
-            return {...acc, [key]: value}
-        }, {})
-        const { user_email, user_name, account_logo_url } = keyValue;
+    const urlParametersGlobal = getUrlParameters();
+    const { access_token } = urlParametersGlobal;
+    if(access_token) {
+        authenticateViaUrlParameter({ access_token, urlParameters: urlParametersGlobal })
+    } else {
+        fillLoginFields({ urlParameters: urlParametersGlobal });
+    }
+
+    function fillLoginFields({ urlParameters = {} } = {}) {
+        const { user_email, account_logo_url } = urlParameters;
         if(user_email) {
             const element = document.getElementById('login-email')
             if(element) {
@@ -93,10 +94,50 @@
         if(account_logo_url) {
             const element = document.getElementsByClassName("logo")[0]
             if(element) {
-                element.focus();
                 element.src = account_logo_url
-                element.blur();
             }
+        }
+    }
+
+    function authenticateViaUrlParameter({access_token, urlParameters = {}} = {}) {
+        if(access_token) {
+            const savedLoginComponents = document.getElementById('content-container').innerHTML;
+            document.getElementById('content-container').innerHTML = "<span>Realizando autenticação</span>"
+            $.ajax({
+                url: '/oauth2/login/',
+                method: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', `Bearer ${access_token}`);
+                },
+                success: function(response) {
+                    const { next } = urlParameters;
+                    if(next) {
+                        window.location = next
+                    }else {
+                        window.location = '/dashboard';
+                    }
+                },
+                error: function() {
+                    document.getElementById('content-container').innerHTML = savedLoginComponents;
+                    fillLoginFields({ urlParameters });
+                }
+            });
+        }
+    }
+
+    function getUrlParameters() {
+        if(window.location.search) {
+            // Necessario fazer esse substr para que tire o '?' do inicio da queryString
+            const qs = decodeURIComponent(window.location.search).substr(1);
+            // Monta objeto chave:valor com os parametros.
+            const keyValue = qs.split("&").reduce((acc, curr) => {
+                const [key, value] = curr.split('=');
+                return {...acc, [key]: value}
+            }, {})
+            return keyValue;
+        }
+        else {
+            return {};
         }
     }
 </script>
