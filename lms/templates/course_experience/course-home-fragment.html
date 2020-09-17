@@ -65,6 +65,15 @@ from cms.djangoapps.models.settings.course_metadata import CourseMetadata
     </header>
     <div class="page-content">
         <div class="page-content-main">
+            % if course.other_course_settings["banner_image_url"]:
+                <div id="banner-img-container">
+                    <img 
+                        id="banner-img" 
+                        alt="${course.display_name_with_default}" 
+                        src=''
+                    />
+                </div>
+            %endif
             % if next_up_banner_fragment:
                 ${HTML(next_up_banner_fragment.body_html())}
             % endif
@@ -191,3 +200,27 @@ from cms.djangoapps.models.settings.course_metadata import CourseMetadata
 <%static:webpack entry="Enrollment">
     new CourseEnrollment('.enroll-btn', '${course_key | n, js_escaped_string}');
 </%static:webpack>
+
+<script>
+    main()
+
+    function main() {
+        if('${course.other_course_settings}'.trim().length > 0 && 
+            '${course.other_course_settings["banner_image_url"]}'.trim().length > 0 &&
+            isValidUrl({urlToCheck: '${course.other_course_settings["banner_image_url"]}'})) {
+            const banner = document.getElementById('banner-img');
+            if(banner) {
+                banner.src = '${course.other_course_settings["banner_image_url"]}';
+            }
+        }
+    }
+
+    function isValidUrl({ urlToCheck = '' } = {}) {
+        try {
+            new URL(urlToCheck);
+            return true;
+        } catch (_) {
+            return false;  
+        }
+    }
+</script>
