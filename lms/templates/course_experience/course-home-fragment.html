@@ -16,8 +16,6 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 from openedx.core.djangolib.markup import Text, HTML
 from openedx.features.course_experience import UNIFIED_COURSE_TAB_FLAG, SHOW_REVIEWS_TOOL_FLAG
 from openedx.features.course_experience.course_tools import HttpMethod
-
-from cms.djangoapps.models.settings.course_metadata import CourseMetadata
 %>
 
 <%block name="header_extras">
@@ -65,15 +63,11 @@ from cms.djangoapps.models.settings.course_metadata import CourseMetadata
     </header>
     <div class="page-content">
         <div class="page-content-main">
-            % if course.other_course_settings["banner_image_url"]:
+            % if 'banner_image_url' in course.other_course_settings:
                 <div id="banner-img-container">
-                    <img 
-                        id="banner-img" 
-                        alt="${course.display_name_with_default}" 
-                        src=''
-                    />
+                    <img id="banner-img" alt="" src='' />
                 </div>
-            %endif
+            % endif
             % if next_up_banner_fragment:
                 ${HTML(next_up_banner_fragment.body_html())}
             % endif
@@ -201,16 +195,17 @@ from cms.djangoapps.models.settings.course_metadata import CourseMetadata
     new CourseEnrollment('.enroll-btn', '${course_key | n, js_escaped_string}');
 </%static:webpack>
 
-<script>
+<script>    
     main()
 
     function main() {
-        if('${course.other_course_settings}'.trim().length > 0 && 
-            '${course.other_course_settings["banner_image_url"]}'.trim().length > 0 &&
-            isValidUrl({urlToCheck: '${course.other_course_settings["banner_image_url"]}'})) {
+        const otherCourseSettings = JSON.parse(`${course.other_course_settings}`.replaceAll("&#39;", '"'));
+        if(otherCourseSettings && otherCourseSettings.banner_image_url &&
+            isValidUrl({urlToCheck: otherCourseSettings.banner_image_url})) {
             const banner = document.getElementById('banner-img');
             if(banner) {
-                banner.src = '${course.other_course_settings["banner_image_url"]}';
+                banner.src = otherCourseSettings.banner_image_url;
+                banner.alt = '${course.display_name_with_default}'
             }
         }
     }
