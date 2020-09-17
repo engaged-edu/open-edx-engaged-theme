@@ -65,7 +65,7 @@ from openedx.features.course_experience.course_tools import HttpMethod
         <div class="page-content-main">
             % if 'banner_image_url' in course.other_course_settings:
                 <div id="banner-img-container">
-                    <img id="banner-img" alt="" src='' />
+                    <img id="banner-img" alt="${course.display_name_with_default}" src='${course.other_course_settings["banner_image_url"]}' />
                 </div>
             % endif
             % if next_up_banner_fragment:
@@ -194,28 +194,3 @@ from openedx.features.course_experience.course_tools import HttpMethod
 <%static:webpack entry="Enrollment">
     new CourseEnrollment('.enroll-btn', '${course_key | n, js_escaped_string}');
 </%static:webpack>
-
-<script>    
-    main()
-
-    function main() {
-        const otherCourseSettings = JSON.parse(`${course.other_course_settings}`.replaceAll("&#39;", '"'));
-        if(otherCourseSettings && otherCourseSettings.banner_image_url &&
-            isValidUrl({urlToCheck: otherCourseSettings.banner_image_url})) {
-            const banner = document.getElementById('banner-img');
-            if(banner) {
-                banner.src = otherCourseSettings.banner_image_url;
-                banner.alt = '${course.display_name_with_default}'
-            }
-        }
-    }
-
-    function isValidUrl({ urlToCheck = '' } = {}) {
-        try {
-            new URL(urlToCheck);
-            return true;
-        } catch (_) {
-            return false;  
-        }
-    }
-</script>
